@@ -1,4 +1,4 @@
-import { getTutors } from '@/components/lib/data';
+import { getTutors } from '@/lib/data';
 import Image from 'next/image';
 import React from 'react';
 

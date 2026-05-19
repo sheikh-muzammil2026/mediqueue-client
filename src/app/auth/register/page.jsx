@@ -1,6 +1,36 @@
-import React from 'react';
+'use client'
+
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
+import { toast } from "react-toastify";
+
 
 const RegisterPage = () => {
+
+  const onSubmit = async (e)=>{
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget)
+    const user = Object.fromEntries(formData.entries())
+    // console.log(user, "from user after getting data from form")
+
+    const { data, error } = await authClient.signUp.email({
+        email: user.email,
+        password: user.password,
+        name: user.name, 
+        image: user.image
+    }
+    
+  );
+  // console.log(data, error, "from data after clicked in submit button")
+  if(data){
+    toast.success("register successfull")
+    redirect("/")
+  }
+  if(error){
+   toast.error("Error")
+  }
+    
+  }
     return (
          <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#020817] px-6 py-20">
       <div className="absolute bottom-[-120px] right-[-120px] h-[320px] w-[320px] rounded-full bg-blue-500/20 blur-3xl"></div>
@@ -23,13 +53,15 @@ const RegisterPage = () => {
           </p>
         </div>
 
-        <form className="space-y-5">
+        <form  onSubmit={onSubmit} className="space-y-5">
           <div>
             <label className="mb-3 block text-sm font-medium text-slate-300">
               Full Name
             </label>
 
             <input
+              required
+              name='name'
               type="text"
               placeholder="Enter your full name"
               className="w-full rounded-2xl border border-white/10 bg-[#091524] px-5 py-4 text-white outline-none transition-all duration-300 placeholder:text-slate-500 focus:border-cyan-400/40 focus:bg-cyan-400/5"
@@ -42,6 +74,8 @@ const RegisterPage = () => {
             </label>
 
             <input
+              required
+              name='email'
               type="email"
               placeholder="Enter your email"
               className="w-full rounded-2xl border border-white/10 bg-[#091524] px-5 py-4 text-white outline-none transition-all duration-300 placeholder:text-slate-500 focus:border-cyan-400/40 focus:bg-cyan-400/5"
@@ -54,7 +88,8 @@ const RegisterPage = () => {
             </label>
 
             <input
-              type="text"
+              type="url"
+              name='image'
               placeholder="Paste your photo url"
               className="w-full rounded-2xl border border-white/10 bg-[#091524] px-5 py-4 text-white outline-none transition-all duration-300 placeholder:text-slate-500 focus:border-cyan-400/40 focus:bg-cyan-400/5"
             />
@@ -67,12 +102,13 @@ const RegisterPage = () => {
 
             <input
               type="password"
+              name='password'
               placeholder="Create strong password"
               className="w-full rounded-2xl border border-white/10 bg-[#091524] px-5 py-4 text-white outline-none transition-all duration-300 placeholder:text-slate-500 focus:border-cyan-400/40 focus:bg-cyan-400/5"
             />
           </div>
 
-          <button className="mt-3 w-full rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-4 text-lg font-bold text-slate-950 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(34,211,238,0.35)]">
+          <button type='submit' className="mt-3 w-full rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-4 text-lg font-bold text-slate-950 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(34,211,238,0.35)]">
             Create Account
           </button>
         </form>

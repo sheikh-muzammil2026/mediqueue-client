@@ -1,6 +1,35 @@
+'use client'
+import { authClient } from '@/lib/auth-client';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import React from 'react';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
+
+  const onSubmit = async(e)=> {
+     e.preventDefault();
+    const formData = new FormData(e.currentTarget)
+    const user = Object.fromEntries(formData.entries());
+    console.log(user)
+
+    const { data, error } = await authClient.signIn.email({
+        email: user.email, 
+        password: user.password 
+       
+    }, );
+
+    if(data){
+      toast.success("login succesfull")
+      redirect("/")
+    }
+    if(error){
+      toast.error("Error")
+    }
+
+  }
+
+
     return (
           <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#020817] px-6 py-20">
       <div className="absolute left-[-120px] top-[-120px] h-[320px] w-[320px] rounded-full bg-cyan-500/20 blur-3xl"></div>
@@ -23,7 +52,7 @@ const LoginPage = () => {
           </p>
         </div>
 
-        <form className="space-y-6">
+        <form onSubmit={onSubmit} className="space-y-6">
           <div>
             <label className="mb-3 block text-sm font-medium text-slate-300">
               Email Address
@@ -31,6 +60,7 @@ const LoginPage = () => {
 
             <input
               type="email"
+              name='email'
               placeholder="Enter your email"
               className="w-full rounded-2xl border border-white/10 bg-[#091524] px-5 py-4 text-white outline-none transition-all duration-300 placeholder:text-slate-500 focus:border-cyan-400/40 focus:bg-cyan-400/5"
             />
@@ -52,12 +82,13 @@ const LoginPage = () => {
 
             <input
               type="password"
+              name="password"
               placeholder="Enter your password"
               className="w-full rounded-2xl border border-white/10 bg-[#091524] px-5 py-4 text-white outline-none transition-all duration-300 placeholder:text-slate-500 focus:border-cyan-400/40 focus:bg-cyan-400/5"
             />
           </div>
 
-          <button className="w-full rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-4 text-lg font-bold text-slate-950 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(34,211,238,0.35)]">
+          <button type='submit' className="w-full rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-4 text-lg font-bold text-slate-950 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(34,211,238,0.35)]">
             Login Now
           </button>
         </form>
@@ -85,9 +116,9 @@ const LoginPage = () => {
 
         <p className="mt-8 text-center text-slate-400">
           Don’t have an account?
-          <button className="ml-2 font-semibold text-cyan-300 transition hover:text-cyan-200">
+         <Link href={"/auth/register"}> <button className="ml-2 font-semibold text-cyan-300 transition hover:text-cyan-200">
             Register
-          </button>
+          </button></Link>
         </p>
       </div>
     </section>
