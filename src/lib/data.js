@@ -1,5 +1,14 @@
-export const getTutors = async() =>{
-    const res = await fetch("http://localhost:5000/tutors");
+export const getAvailableTutorsPromise = async() =>{
+    const res = await fetch("http://localhost:5000/availableTutors");
     const data = await res.json()
     return data;
 }
+
+
+
+export const getAllTutorsPromise = async() =>{
+    const res = await fetch("http://localhost:5000/allTutors");
+    const data = await res.json()
+    return data;
+}
+

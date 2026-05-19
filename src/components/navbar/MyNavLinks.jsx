@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 const MyNavLinks = ({user}) => {
@@ -10,7 +11,7 @@ const MyNavLinks = ({user}) => {
         },
 
          {
-          path: '/tutors',
+          path: '/allTutors',
           text: 'Tutors',
         },
 
@@ -34,23 +35,25 @@ const MyNavLinks = ({user}) => {
         {
             user ? 
            navLinks.map((link, index) => (
+            <Link href={link.path}  key={index}>
              <button  
-             key={index}
-         className="rounded-full px-5 py-2 text-sm font-medium text-slate-300 transition-all duration-300 hover:bg-cyan-400/10 hover:text-cyan-300"
+              className="rounded-full px-5 py-2 text-sm font-medium text-slate-300 transition-all duration-300 hover:bg-cyan-400/10 hover:text-cyan-300"
          >  
-         {link.text}
+            {link.text}
          </button>
+            </Link>
            ))
             
             : 
            
             navLinks.slice(0,2).map((link, index) => (
+            <Link href={link.path} key={index}>
              <button  
-             key={index}
+            
          className="rounded-full px-5 py-2 text-sm font-medium text-slate-300 transition-all duration-300 hover:bg-cyan-400/10 hover:text-cyan-300"
          >  
          {link.text}
-         </button>
+         </button></Link>
            ))
            
         }

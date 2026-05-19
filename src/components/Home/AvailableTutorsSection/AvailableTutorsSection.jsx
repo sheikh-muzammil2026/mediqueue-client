@@ -1,10 +1,10 @@
-import { getTutors } from '@/lib/data';
+import { getAvailableTutorsPromise } from '@/lib/data';
 import Image from 'next/image';
 import React from 'react';
 
 const AvailableTutorsSection = async() => {
 
-  const tutors = await getTutors();
+  const tutors = await getAvailableTutorsPromise();
  
     return (
          <section className="px-6 py-24">
@@ -22,18 +22,17 @@ const AvailableTutorsSection = async() => {
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {tutors.map((tutor) => (
             <div
-              key={tutor.id}
+              key={tutor._id}
               className="group overflow-hidden rounded-[32px] border border-white/10 bg-white/5 backdrop-blur-2xl transition-all duration-500 hover:-translate-y-2 hover:border-cyan-400/30"
             >
-              <div className="relative overflow-hidden">
-                <Image
-                  width={400}
-                  height={400}
-                  src={tutor.image}
-                  alt={tutor.name}
-                  className="h-[320px] w-full object-cover transition duration-700 group-hover:scale-110"
-                />
-              </div>
+              <div className="relative aspect-[4/5] overflow-hidden">
+                    <Image
+                     fill
+                      src={tutor.image}
+                      alt={tutor.name}
+                      className="object-cover object-center transition duration-700 group-hover:scale-110"
+                       />
+                     </div>
 
               <div className="p-7">
                 <div className="flex items-center justify-between">
