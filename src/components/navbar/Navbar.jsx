@@ -4,6 +4,7 @@ import React from 'react';
 import { authClient } from "@/lib/auth-client"
 import { useRouter } from "next/navigation";
 import { Avatar } from '@heroui/react';
+import MyNavLinks from './MyNavLinks';
 
 
 
@@ -25,13 +26,6 @@ const Navbar =  () => {
       
   }
 
-      const navLinks = [
-    'Home',
-    'Tutors',
-    'Add Tutor',
-    'My Tutors',
-    'Booked Sessions',
-  ]
 
     return (
           <header className="sticky top-0 z-50 border-b border-white/10 bg-[#07111f]/70 backdrop-blur-2xl">
@@ -55,14 +49,16 @@ const Navbar =  () => {
         </div>
 
         <nav className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 backdrop-blur-2xl lg:flex">
-          {navLinks.map((link) => (
+          {/* {navLinks.map((link, index) => (
             <button
-              key={link}
+              key={index}
               className="rounded-full px-5 py-2 text-sm font-medium text-slate-300 transition-all duration-300 hover:bg-cyan-400/10 hover:text-cyan-300"
             >
-              {link}
+              {link.text}
             </button>
-          ))}
+          ))} */}
+
+          < MyNavLinks user={user} />
         </nav>
 
         <div className="flex items-center gap-4">

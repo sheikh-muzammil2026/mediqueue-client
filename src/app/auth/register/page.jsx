@@ -24,7 +24,7 @@ const RegisterPage = () => {
   // console.log(data, error, "from data after clicked in submit button")
   if(data){
     toast.success("register successfull")
-    redirect("/")
+    redirect("/auth/login")
   }
   if(error){
    toast.error("Error")
