@@ -22,11 +22,11 @@ const HeroSection = () => {
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-5">
           <Link href={'/allTutors'}>
-          <button className="rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-8 py-4 font-semibold text-slate-950 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(34,211,238,0.5)]">
+          <button className="rounded-2xl cursor-pointer bg-gradient-to-r from-cyan-400 to-blue-500 px-8 py-4 font-semibold text-slate-950 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(34,211,238,0.5)]">
             Explore Tutors
           </button></Link>
 
-          <button className="rounded-2xl border border-white/15 bg-white/5 px-8 py-4 font-semibold backdrop-blur-xl transition-all duration-300 hover:border-cyan-400/40 hover:bg-cyan-400/10">
+          <button className="rounded-2xl cursor-pointer border border-white/15 bg-white/5 px-8 py-4 font-semibold backdrop-blur-xl transition-all duration-300 hover:border-cyan-400/40 hover:bg-cyan-400/10">
             Become a Tutor
           </button>
         </div>

@@ -21,6 +21,7 @@
     "react-toastify": "^11.1.0"
   },
   "devDependencies": {
+    "@gravity-ui/icons": "^2.18.0",
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",

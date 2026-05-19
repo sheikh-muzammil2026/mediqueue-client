@@ -1,20 +1,26 @@
 'use client'
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { authClient } from "@/lib/auth-client"
 import { useRouter } from "next/navigation";
-import { Avatar } from '@heroui/react';
+import { Avatar, Dropdown } from '@heroui/react';
 import MyNavLinks from './MyNavLinks';
+import DropdownFunc from './DropdownFunc';
 
 
 
 const Navbar =  () => { 
 
-    const { data: session} = authClient.useSession() 
-    const user = session?.user;
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const { data: session} = authClient.useSession() 
+  const user = session?.user;
+  console.log(user)
 
   const router = useRouter();
+
   const handleLogoutButton = async () =>{
+      setDropdownOpen(false)
       await authClient.signOut({
   fetchOptions: {
     onSuccess: () => {
@@ -49,14 +55,6 @@ const Navbar =  () => {
         </div>
 
         <nav className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 backdrop-blur-2xl lg:flex">
-          {/* {navLinks.map((link, index) => (
-            <button
-              key={index}
-              className="rounded-full px-5 py-2 text-sm font-medium text-slate-300 transition-all duration-300 hover:bg-cyan-400/10 hover:text-cyan-300"
-            >
-              {link.text}
-            </button>
-          ))} */}
 
           < MyNavLinks user={user} />
         </nav>
@@ -66,14 +64,15 @@ const Navbar =  () => {
           {
             user ? 
             <>
-              <Avatar>
-        <Avatar.Image alt="John Doe" src="https://img.heroui.chat/image/avatar?w=400&h=400&u=3" />
-        <Avatar.Fallback>JD</Avatar.Fallback>
+            <DropdownFunc handleLogoutButton={handleLogoutButton} user={user} />
+            {/* <Dropdown.Trigger className="rounded-full">
+              <Avatar 
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+            <Avatar.Image alt={user?.name} src={user?.image} />
+            <Avatar.Fallback>{user?.name}</Avatar.Fallback>
           </Avatar>
-
-          <button onClick={handleLogoutButton} className="hidden rounded-full border border-cyan-400/20 bg-cyan-400/10 px-5 py-2 text-sm font-medium text-cyan-300 transition-all duration-300 hover:bg-cyan-400/20 md:block">
-            Logout
-          </button>
+          </Dropdown.Trigger> */}
             </>
 
             :
@@ -89,8 +88,8 @@ const Navbar =  () => {
             </>
           }
           
-
-         
+      
+      
         </div>
       </div>
     </header>

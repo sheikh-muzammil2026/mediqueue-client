@@ -12,3 +12,9 @@ export const getAllTutorsPromise = async() =>{
     return data;
 }
 
+export const getSingleTutorPromise = async(tutorId) =>{
+    const res = await fetch(`http://localhost:5000/allTutors/${tutorId}`);
+    const data = await res.json()
+    return data;
+}
+

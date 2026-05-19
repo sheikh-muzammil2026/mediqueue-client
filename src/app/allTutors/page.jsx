@@ -1,5 +1,6 @@
 import { getAllTutorsPromise } from '@/lib/data';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const AllTutorsPage = async() => {
@@ -49,6 +50,7 @@ const AllTutorsPage = async() => {
                       <div className="relative aspect-[4/5] overflow-hidden">
                         <Image
                             fill
+                            sizes="(max-w-768px) 100vw, 150px"
                             src={tutor.image}
                             alt={tutor.name}
                             className="object-cover object-center transition duration-700 group-hover:scale-110"
@@ -70,9 +72,11 @@ const AllTutorsPage = async() => {
                           </div>
                         </div>
         
-                        <button className="mt-8 w-full rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-4 font-bold text-slate-950 transition-all duration-300 hover:scale-[1.02]">
+                       <Link href={`/allTutors/${tutor._id}`}>
+                        <button className="mt-8 w-full cursor-pointer rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-4 font-bold text-slate-950 transition-all duration-300 hover:scale-[1.02]">
                           Book Session
                         </button>
+                        </Link>
                       </div>
                     </div>
                   ))}

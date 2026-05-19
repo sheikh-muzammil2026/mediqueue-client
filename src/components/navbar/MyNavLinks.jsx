@@ -37,7 +37,7 @@ const MyNavLinks = ({user}) => {
            navLinks.map((link, index) => (
             <Link href={link.path}  key={index}>
              <button  
-              className="rounded-full px-5 py-2 text-sm font-medium text-slate-300 transition-all duration-300 hover:bg-cyan-400/10 hover:text-cyan-300"
+              className="rounded-full cursor-pointer px-5 py-2 text-sm font-medium text-slate-300 transition-all duration-300 hover:bg-cyan-400/10 hover:text-cyan-300"
          >  
             {link.text}
          </button>
@@ -50,7 +50,7 @@ const MyNavLinks = ({user}) => {
             <Link href={link.path} key={index}>
              <button  
             
-         className="rounded-full px-5 py-2 text-sm font-medium text-slate-300 transition-all duration-300 hover:bg-cyan-400/10 hover:text-cyan-300"
+         className="rounded-full cursor-pointer px-5 py-2 text-sm font-medium text-slate-300 transition-all duration-300 hover:bg-cyan-400/10 hover:text-cyan-300"
          >  
          {link.text}
          </button></Link>
