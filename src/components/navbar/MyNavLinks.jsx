@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 const MyNavLinks = ({user}) => {
-    console.log(user)
+    // console.log(user)
 
           const navLinks = [
         {

@@ -1,105 +1,142 @@
-"use client"; 
+"use client";
+import { authClient } from "@/lib/auth-client";
+
+ 
 
 const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
   // If the modal is not open, it will render nothing
   if (!isOpen) return null;
+      const { data: session, } = authClient.useSession();
+      const user = session?.user;
+      
+
+  const handleBooking = async (e) =>{
+     e.preventDefault();
+
+      const bookingData = {
+        userName: user?.name,
+        userEmail: user?.email,
+        userPhone: user?.phone,
+        tutorId: tutorData?._id,
+        tutorName: tutorData?.name,
+        tutorEmail: tutorData?.email,
+        sessionStartedDate: tutorData?.sessionStartDate,
+        bookedAt: new Date()
+      }
+      const res = await fetch("http://localhost:5000/bookedSession", {
+            method: "POST",
+            headers: {
+              'content-type' : 'application/json'
+            },
+            body: JSON.stringify(bookingData)
+            
+      })
+      onClose();
+     
+  }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop Overlay (With Blur Effect) */}
-      <div 
-        className="fixed inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity"
-        onClick={onClose} // Modal will close when clicking outside
-      />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
+  {/* Backdrop Overlay with Smooth Blur */}
+  <div 
+    className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity"
+    onClick={onClose} // Modal will close when clicking outside
+  />
 
-      {/* Modal Box */}
-      <div className="relative w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-8 shadow-2xl transition-all z-10">
-        
-        {/* Close Button */}
-        <button 
-          onClick={onClose} // Modal will close when clicking the cross button
-          className="absolute cursor-pointer right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-xl text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors"
-        >
-          &times;
-        </button>
+  {/* Modal Box */}
+  <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto transform rounded-2xl bg-white p-5 sm:p-6 shadow-2xl z-10 border border-slate-100 transition-all">
+    
+    {/* Compact Close Button */}
+    <button 
+      onClick={onClose} 
+      className="absolute cursor-pointer right-4 top-4 flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:bg-red-50 hover:text-red-500 border border-slate-200/60 transition-colors active:scale-90"
+      aria-label="Close modal"
+    >
+      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
 
-        {/* Modal Header */}
-        <div className="mb-6 text-center">
-          <h2 className="text-2xl font-bold text-slate-800">Confirm Booking</h2>
-          <p className="text-sm text-slate-500 mt-1">Please verify your information to book the session</p>
-        </div>
-
-        {/* Form */}
-        <form className="space-y-5">
-          
-          {/* Student Name (Readonly) */}
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Student Name</label>
-            <input 
-              type="text" 
-              className="w-full rounded-xl border border-slate-200 bg-slate-100 px-4 py-3 text-slate-600 font-medium cursor-not-allowed outline-none"
-              value="Demo Student" // Logged-in user data will go here later
-              readOnly 
-            />
-          </div>
-
-          {/* Student Email (Readonly) */}
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Student Email</label>
-            <input 
-              type="email" 
-              className="w-full rounded-xl border border-slate-200 bg-slate-100 px-4 py-3 text-slate-600 font-medium cursor-not-allowed outline-none"
-              value="student@example.com" // Demo email
-              readOnly 
-            />
-          </div>
-
-          {/* Tutor ID & Name (Grid Layout - Readonly) */}
-          <div className="grid grid-cols-3 gap-3">
-            <div className="col-span-1">
-              <label className="block text-sm font-semibold text-slate-700 mb-2">Tutor ID</label>
-              <input 
-                type="text" 
-                className="w-full rounded-xl border border-slate-200 bg-slate-100 px-4 py-3 text-slate-600 font-medium cursor-not-allowed outline-none text-center"
-                value={tutorData?._id || tutorData?.id || ""} // Dynamic ID
-                readOnly 
-              />
-            </div>
-            <div className="col-span-2">
-              <label className="block text-sm font-semibold text-slate-700 mb-2">Tutor Name</label>
-              <input 
-                type="text" 
-                className="w-full rounded-xl border border-slate-200 bg-slate-100 px-4 py-3 text-slate-600 font-medium cursor-not-allowed outline-none"
-                value={tutorData?.name || ""} // Dynamic Name
-                readOnly 
-              />
-            </div>
-          </div>
-
-          {/* Phone Number (User Input) */}
-          <div>
-            <label htmlFor="phone" className="block text-sm font-semibold text-slate-700 mb-2">
-              Phone Number <span className="text-red-500">*</span>
-            </label>
-            <input 
-              type="tel" 
-              id="phone"
-              required
-              placeholder="01XXXXXXXXX"
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-800 placeholder-slate-400 focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
-            />
-          </div>
-
-          {/* Submit Button */}
-          <button 
-            type="submit"
-            className="w-full mt-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 py-3.5 font-semibold text-white shadow-lg shadow-indigo-600/30 hover:opacity-95 active:scale-[0.98] transition-all"
-          >
-            Confirm Booking
-          </button>
-        </form>
-      </div>
+    {/* Modal Header */}
+    <div className="mb-4 text-center mt-2">
+      <h2 className="text-xl font-bold text-slate-900 tracking-tight">Confirm Booking</h2>
+      <p className="text-xs text-slate-500 mt-0.5">Please verify your information to book the session</p>
     </div>
+
+    {/* Form */}
+    <form className="space-y-3.5">
+      
+      {/* Student Name (Readonly) */}
+      <div>
+        <label className="block text-xs font-semibold text-slate-600 mb-1">Student Name</label>
+        <input 
+          type="text" 
+          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-500 font-medium cursor-not-allowed outline-none"
+          value="Demo Student" 
+          readOnly 
+        />
+      </div>
+
+      {/* Student Email (Readonly) */}
+      <div>
+        <label className="block text-xs font-semibold text-slate-600 mb-1">Student Email</label>
+        <input 
+          type="email" 
+          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-500 font-medium cursor-not-allowed outline-none"
+          value="student@example.com" 
+          readOnly 
+        />
+      </div>
+
+      {/* Tutor ID & Name (Grid Layout - Readonly as requested for assignment) */}
+      <div className="grid grid-cols-3 gap-3">
+        <div className="col-span-1">
+          <label className="block text-xs font-semibold text-slate-600 mb-1">Tutor ID</label>
+          <input 
+            type="text" 
+            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-2 py-2 text-sm text-slate-500 font-medium cursor-not-allowed outline-none text-center truncate"
+            value={tutorData?._id || tutorData?.id || ""} 
+            readOnly 
+          />
+        </div>
+        <div className="col-span-2">
+          <label className="block text-xs font-semibold text-slate-600 mb-1">Tutor Name</label>
+          <input 
+            type="text" 
+            className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm text-slate-500 font-medium cursor-not-allowed outline-none truncate"
+            value={tutorData?.name || ""} 
+            readOnly 
+          />
+        </div>
+      </div>
+
+      {/* Phone Number (User Input) */}
+      <div>
+        <label htmlFor="phone" className="block text-xs font-semibold text-slate-700 mb-1">
+          Phone Number <span className="text-red-500">*</span>
+        </label>
+        <input 
+          type="tel" 
+          id="phone"
+          required
+          placeholder="01XXXXXXXXX"
+          className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all outline-none font-medium"
+        />
+      </div>
+
+      {/* Submit Button */}
+      <div className="pt-1">
+        <button 
+          onClick={handleBooking}
+          type="submit"
+          className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 py-2.5 text-sm font-semibold text-white shadow-md shadow-indigo-600/10 hover:opacity-95 active:scale-[0.99] transition-all cursor-pointer"
+        >
+          Confirm Booking
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
   );
 };
 
