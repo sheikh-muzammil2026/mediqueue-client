@@ -6,7 +6,7 @@ import Image from 'next/image';
 const TutorDetailsPage = async({params}) => {
     const {id} = await params;
     const tutor = await getSingleTutorPromise(id)
-    // console.log(tutor, "from tutor details page")
+    console.log(tutor, "from tutor details page")
 
     return (
        <div className="w-full max-w-5xl mx-auto my-8 bg-slate-50/50 rounded-3xl border border-slate-200/60 p-4 sm:p-6 lg:p-8 backdrop-blur-sm">
@@ -61,7 +61,16 @@ const TutorDetailsPage = async({params}) => {
               </div>
               <h3 className="text-sm font-bold text-slate-700 uppercase tracking-wider">Availability</h3>
             </div>
-            <p className="text-slate-900 font-extrabold text-base">{tutor?.availableDays || "12-05-26"}</p>
+            {/* <p className="text-slate-900 font-extrabold text-base">
+              {tutor?.availableDays && tutor.availableDays.length > 0 
+                    ? tutor.availableDays.join(', ') 
+                    : "Not Available"}
+            </p> */}
+            <p className="text-slate-900 font-extrabold text-base">
+            {tutor?.availableDays && tutor.availableDays.length > 0 
+              ? tutor.availableDays.join(', ') 
+              : "Not Available"}
+            </p>
             <p className="text-slate-500 text-xs mt-1 font-medium">{tutor?.availableTime || "3:52 am"}</p>
           </div>
 

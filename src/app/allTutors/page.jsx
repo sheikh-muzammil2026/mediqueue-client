@@ -44,15 +44,16 @@ const AllTutorsPage = async() => {
                 <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
                   {tutors.map((tutor) => (
                     <div
-                      key={tutor._id}
+                      key={tutor?._id}
                       className="group overflow-hidden rounded-[32px] border border-white/10 bg-white/5 backdrop-blur-2xl transition-all duration-500 hover:-translate-y-2 hover:border-cyan-400/30"
                     >
                       <div className="relative aspect-[4/5] overflow-hidden">
                         <Image
                             fill
-                            sizes="(max-w-768px) 100vw, 150px"
-                            src={tutor.image}
-                            alt={tutor.name}
+                            // sizes="(max-w-768px) 100vw, 150px"
+                            sizes="(max-width: 768px) 100vw, 150px"
+                            src={tutor?.image}
+                            alt={tutor?.name || "Tutor Image"}
                             className="object-cover object-center transition duration-700 group-hover:scale-110"
                         />
                             </div>
@@ -61,14 +62,14 @@ const AllTutorsPage = async() => {
                         <div className="flex items-center justify-between">
                           <div>
                             <h3 className="text-2xl font-bold text-white">
-                              {tutor.name}
+                              {tutor?.name}
                             </h3>
         
-                            <p className="mt-2 text-cyan-300">{tutor.subject}</p>
+                            <p className="mt-2 text-cyan-300">{tutor?.subject}</p>
                           </div>
         
                           <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-300">
-                            {tutor.fee}
+                            {tutor?.fee}
                           </div>
                         </div>
         

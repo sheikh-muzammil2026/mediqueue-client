@@ -13,7 +13,7 @@ const BookSessionBtn = ({ tutor }) => {
         onClick={() => setIsOpen(true)}
         className="mt-8 w-full cursor-pointer rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-5 py-4 font-bold text-slate-950 transition-all duration-300 hover:scale-[1.02]"
       >
-        Book Session 
+        Book Now 
       </button>
 
       {/* মডাল কম্পোনেন্ট */}

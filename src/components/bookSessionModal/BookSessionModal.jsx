@@ -18,7 +18,7 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
         {/* Close Button */}
         <button 
           onClick={onClose} // Modal will close when clicking the cross button
-          className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-xl text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors"
+          className="absolute cursor-pointer right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-xl text-slate-500 hover:bg-red-50 hover:text-red-500 transition-colors"
         >
           &times;
         </button>
@@ -104,3 +104,17 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
 };
 
 export default BookSessionModal;
+
+
+
+/**
+ * 1. confirm booking e click korle 3 dhoroner data dabase e store korte cai 
+ * * user data
+ * * tutor data
+ * * booktin time
+ * 
+ * 2. ejonno ->>>
+ * * 3 dhoroner data ke age dhorte hobe. erpore data gulu client side er data.js e send korte hobe. props diye
+ * * client side e API POST method banate hobe. 
+ **  express diye database e store korte hobe.
+ * */ 
