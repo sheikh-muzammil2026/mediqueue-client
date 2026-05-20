@@ -18,3 +18,14 @@ export const getSingleTutorPromise = async(tutorId) =>{
     return data;
 }
 
+export const getBookedSessionPromise = async(userId) =>{
+     const res = await fetch(`http://localhost:5000/allTutors/${userId}`);
+    const data = await res.json()
+    return data;
+}
+
+
+ export const getSessionData = async() =>{
+    const data = await getBookedSessionPromise();
+    return data;
+  }

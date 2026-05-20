@@ -3,7 +3,6 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { authClient } from "@/lib/auth-client"
 import { useRouter } from "next/navigation";
-import { Avatar, Dropdown } from '@heroui/react';
 import MyNavLinks from './MyNavLinks';
 import DropdownFunc from './DropdownFunc';
 
@@ -15,7 +14,7 @@ const Navbar =  () => {
 
   const { data: session} = authClient.useSession() 
   const user = session?.user;
-  console.log(user)
+  // console.log(user)
 
   const router = useRouter();
 
@@ -65,14 +64,7 @@ const Navbar =  () => {
             user ? 
             <>
             <DropdownFunc handleLogoutButton={handleLogoutButton} user={user} />
-            {/* <Dropdown.Trigger className="rounded-full">
-              <Avatar 
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
-            <Avatar.Image alt={user?.name} src={user?.image} />
-            <Avatar.Fallback>{user?.name}</Avatar.Fallback>
-          </Avatar>
-          </Dropdown.Trigger> */}
+           
             </>
 
             :

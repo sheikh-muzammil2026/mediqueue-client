@@ -1,5 +1,6 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
 
  
 
@@ -17,6 +18,7 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
         userName: user?.name,
         userEmail: user?.email,
         userPhone: user?.phone,
+        userId: user?.id,
         tutorId: tutorData?._id,
         tutorName: tutorData?.name,
         tutorEmail: tutorData?.email,
@@ -31,6 +33,7 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
             body: JSON.stringify(bookingData)
             
       })
+      toast.session("You booked successfully.")
       onClose();
      
   }
