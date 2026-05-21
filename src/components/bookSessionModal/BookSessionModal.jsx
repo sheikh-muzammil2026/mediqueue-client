@@ -22,15 +22,15 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
         userPhone: phone,
         userId: user?.id,
         tutorId: tutorData?._id,
-        tutorImage: tutorData.image,
+        tutorImage: tutorData?.image,
         tutorName: tutorData?.name,
         tutorEmail: tutorData?.email,
-        tutorFee: tutorData.fee,
-        subject: tutorData.subject,
+        tutorFee: tutorData?.fee,
+        subject: tutorData?.subject,
         sessionStartedDate: tutorData?.sessionStartDate,
         bookedAt: new Date()
       }  
-      const res = await fetch("http://localhost:5000/bookedSession", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookedSession`, {
             method: "POST",
             headers: {
               'content-type' : 'application/json'

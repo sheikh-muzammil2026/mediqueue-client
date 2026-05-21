@@ -1,34 +1,23 @@
-export const getAvailableTutorsPromise = async() =>{
-    const res = await fetch("http://localhost:5000/availableTutors");
-    const data = await res.json()
+export const getAvailableTutorsPromise = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/availableTutors`);
+    const data = await res.json();
     return data;
-}
+};
 
-
-
-export const getAllTutorsPromise = async() =>{
-    const res = await fetch("http://localhost:5000/allTutors");
-    const data = await res.json()
+export const getAllTutorsPromise = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/allTutors`);
+    const data = await res.json();
     return data;
-}
+};
 
-export const getSingleTutorPromise = async(tutorId) =>{
-    const res = await fetch(`http://localhost:5000/allTutors/${tutorId}`);
-    const data = await res.json()
+export const getSingleTutorPromise = async (tutorId) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/allTutors/${tutorId}`);
+    const data = await res.json();
     return data;
-}
+};
 
-export const getBookedSessionPromise = async(userId) =>{
-     const res = await fetch(`http://localhost:5000/bookedSession/${userId}`);
-    const data = await res.json()
+export const getBookedSessionPromise = async (userId) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookedSession/${userId}`);
+    const data = await res.json();
     return data;
-}
-
-// export const getMyTutorsPromise = async (userId) => {
-//   if (!userId) return [];
-//   const res = await fetch(`http://localhost:5000/myTutors/${userId}`, {
-//     cache: "no-store",
-//   });
-//   if (!res.ok) throw new Error("Failed to fetch my tutors");
-//   return res.json();
-// };
+};
