@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import BookSessionModal from "./BookSessionModal"; // মডালের সঠিক পাথ দিন
+import BookSessionModal from "./BookSessionModal"; 
 
 const BookSessionBtn = ({ tutor }) => {
   const [isOpen, setIsOpen] = useState(false);

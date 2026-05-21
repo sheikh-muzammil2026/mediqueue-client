@@ -19,13 +19,16 @@ export const getSingleTutorPromise = async(tutorId) =>{
 }
 
 export const getBookedSessionPromise = async(userId) =>{
-     const res = await fetch(`http://localhost:5000/allTutors/${userId}`);
+     const res = await fetch(`http://localhost:5000/bookedSession/${userId}`);
     const data = await res.json()
     return data;
 }
 
-
- export const getSessionData = async() =>{
-    const data = await getBookedSessionPromise();
-    return data;
-  }
+export const getMyTutorsPromise = async (userId) => {
+  if (!userId) return [];
+  const res = await fetch(`http://localhost:5000/myTutors/${userId}`, {
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error("Failed to fetch my tutors");
+  return res.json();
+};

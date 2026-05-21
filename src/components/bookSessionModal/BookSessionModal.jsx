@@ -13,15 +13,20 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
 
   const handleBooking = async (e) =>{
      e.preventDefault();
+    const phone = e.target.phone.value;
+     
 
       const bookingData = {
         userName: user?.name,
         userEmail: user?.email,
-        userPhone: user?.phone,
+        userPhone: phone,
         userId: user?.id,
         tutorId: tutorData?._id,
+        tutorImage: tutorData.image,
         tutorName: tutorData?.name,
         tutorEmail: tutorData?.email,
+        tutorFee: tutorData.fee,
+        subject: tutorData.subject,
         sessionStartedDate: tutorData?.sessionStartDate,
         bookedAt: new Date()
       }
@@ -33,17 +38,17 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
             body: JSON.stringify(bookingData)
             
       })
-      toast.session("You booked successfully.")
+      toast.success("You booked successfully.")
       onClose();
      
   }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
-  {/* Backdrop Overlay with Smooth Blur */}
+  
   <div 
     className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity"
-    onClick={onClose} // Modal will close when clicking outside
+    onClick={onClose} 
   />
 
   {/* Modal Box */}
@@ -67,9 +72,9 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
     </div>
 
     {/* Form */}
-    <form className="space-y-3.5">
+    <form onSubmit={handleBooking} className="space-y-3.5">
       
-      {/* Student Name (Readonly) */}
+      
       <div>
         <label className="block text-xs font-semibold text-slate-600 mb-1">Student Name</label>
         <input 
@@ -80,7 +85,7 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
         />
       </div>
 
-      {/* Student Email (Readonly) */}
+     
       <div>
         <label className="block text-xs font-semibold text-slate-600 mb-1">Student Email</label>
         <input 
@@ -119,8 +124,9 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
           Phone Number <span className="text-red-500">*</span>
         </label>
         <input 
-          type="tel" 
+          type="text" 
           id="phone"
+          name="phone"
           required
           placeholder="01XXXXXXXXX"
           className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-800 placeholder-slate-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all outline-none font-medium"
@@ -130,7 +136,7 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
       {/* Submit Button */}
       <div className="pt-1">
         <button 
-          onClick={handleBooking}
+         
           type="submit"
           className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 py-2.5 text-sm font-semibold text-white shadow-md shadow-indigo-600/10 hover:opacity-95 active:scale-[0.99] transition-all cursor-pointer"
         >
