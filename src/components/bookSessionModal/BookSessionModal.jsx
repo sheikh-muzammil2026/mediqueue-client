@@ -29,7 +29,7 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
         subject: tutorData.subject,
         sessionStartedDate: tutorData?.sessionStartDate,
         bookedAt: new Date()
-      }
+      }  
       const res = await fetch("http://localhost:5000/bookedSession", {
             method: "POST",
             headers: {

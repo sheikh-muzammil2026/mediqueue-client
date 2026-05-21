@@ -8,6 +8,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
   // const initialTutors = use(tutorsPromise) || [];
 
     const tutors = use(tutorsPromise) || [];
+    console.log(tutors, "from my tutors content page")
   
   // রিয়েল-টাইম আপডেটের জন্য স্টেট
   // const [tutors, setTutors] = useState(initialTutors);
@@ -121,22 +122,22 @@ const MyTutorsContent = ({ tutorsPromise }) => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-sm">
-                  {tutors?.map((tutor) => (
-                    <tr key={tutor?._id} className="hover:bg-slate-50/50 transition-colors">
+                  {tutors?.map((tutor, index) => (
+                    <tr key={index} className="hover:bg-slate-50/50 transition-colors">
                       
                       {/* Tutor Image & Name */}
                       <td className="py-4 px-6">
                         <div className="flex items-center gap-3">
                           <div className="relative w-11 h-11 rounded-xl overflow-hidden border border-slate-200 flex-shrink-0">
                             <Image 
-                              src={tutor?.image || "https://i.ibb.co.com/XrH9m4Zt/avatar.png"} 
-                              alt={tutor?.name || "Tutor"}
+                              src={tutor?.tutorImage || "https://i.ibb.co.com/XrH9m4Zt/avatar.png"} 
+                              alt={tutor?.tutorName || "Tutor"}
                               fill
                               sizes="44px"
                               className="object-cover"
                             />
                           </div>
-                          <span className="font-bold text-slate-900">{tutor?.name}</span>
+                          <span className="font-bold text-slate-900">{tutor?.tutorName}</span>
                         </div>
                       </td>
 
@@ -147,7 +148,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
 
                       {/* Fee */}
                       <td className="py-4 px-6 font-bold text-slate-900">
-                        ${tutor?.fee || 0}/hr
+                        {tutor?.tutorFee || 0}
                       </td>
 
                       {/* Action Buttons */}

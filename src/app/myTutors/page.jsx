@@ -1,20 +1,21 @@
 'use client'
 import React, { Suspense, useMemo } from 'react';
 import MyTutorsContent from '@/components/MyTutors/MyTutorsContent';
-import { getMyTutorsPromise } from '@/lib/data';
+import { getBookedSessionPromise } from '@/lib/data';
 import { authClient } from '@/lib/auth-client';
 
 const MyTutorsPage = () => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
   const userId = user?.id;
-
+  
  
   const tutorsPromise = useMemo(() => {
     if (!userId) return Promise.resolve([]);
-    return getMyTutorsPromise(userId);
+    return getBookedSessionPromise(userId);
   }, [userId]);
 
+     
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
