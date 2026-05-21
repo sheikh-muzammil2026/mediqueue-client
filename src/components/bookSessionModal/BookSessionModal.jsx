@@ -30,7 +30,7 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
         sessionStartedDate: tutorData?.sessionStartDate,
         bookedAt: new Date()
       }  
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookedSession`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookedSession`, {
             method: "POST",
             headers: {
               'content-type' : 'application/json'
