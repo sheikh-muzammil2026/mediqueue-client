@@ -4,86 +4,10 @@ import React, { use } from "react";
 import Image from "next/image";
 
 const MyTutorsContent = ({ tutorsPromise }) => {
-  // use হুক দিয়ে প্রমিস থেকে ডাটা রিজলভ করা হচ্ছে
-  // const initialTutors = use(tutorsPromise) || [];
 
     const tutors = use(tutorsPromise) || [];
     console.log(tutors, "from my tutors content page")
-  
-  // রিয়েল-টাইম আপডেটের জন্য স্টেট
-  // const [tutors, setTutors] = useState(initialTutors);
 
-  // মডাল স্টেটসমূহ
-  // const [isEditOpen, setIsEditOpen] = useState(false);
-  // const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  
-  // সিলেক্টেড টিউটর স্টেট
-  // const [selectedTutor, setSelectedTutor] = useState(null);
-  // const [editFormData, setEditFormData] = useState({
-  //   name: "",
-  //   subject: "",
-  //   fee: "",
-  //   image: "",
-  // });
-
-  // ডিলিট কনফার্মেশন হ্যান্ডলার
-  // const handleDeleteClick = (tutor) => {
-  //   setSelectedTutor(tutor);
-  //   setIsDeleteOpen(true);
-  // };
-
-  // const handleConfirmDelete = async () => {
-  //   try {
-  //     const res = await fetch(`http://localhost:5000/MyTutor/${selectedTutor._id}`, {
-  //       method: "DELETE",
-  //     });
-
-  //     if (res.ok) {
-  //       // পেজ রিলোড ছাড়া সাথে সাথে স্টেট থেকে ডিলিট করা
-  //       setTutors(tutors.filter((t) => t._id !== selectedTutor._id));
-  //       setIsDeleteOpen(false);
-  //       setSelectedTutor(null);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error deleting tutor:", error);
-  //   }
-  // };
-
-  // আপডেট/এডিট হ্যান্ডলার
-  // const handleEditClick = (tutor) => {
-  //   setSelectedTutor(tutor);
-  //   setEditFormData({
-  //     name: tutor.name || "",
-  //     subject: tutor.subject || "",
-  //     fee: tutor.fee || "",
-  //     image: tutor.image || "",
-  //   });
-  //   setIsEditOpen(true);
-  // };
-
-  // const handleEditSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const res = await fetch(`http://localhost:5000/tutor/${selectedTutor._id}`, {
-  //       method: "PATCH", // অথবা PUT আপনার ব্যাকএন্ড অনুযায়ী
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(editFormData),
-  //     });
-
-  //     if (res.ok) {
-  //       // পেज রিলোড ছাড়া সাথে সাথে UI আপডেট করা
-  //       setTutors(
-  //         tutors.map((t) =>
-  //           t._id === selectedTutor._id ? { ...t, ...editFormData } : t
-  //         )
-  //       );
-  //       setIsEditOpen(false);
-  //       setSelectedTutor(null);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating tutor:", error);
-  //   }
-  // };
 
   return (
     <div className="min-h-screen bg-slate-50/50 py-12 px-4 sm:px-6 lg:px-8">
