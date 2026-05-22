@@ -10,6 +10,11 @@ const BookSessionBtn = ({ tutor }) => {
   const isSlotEmpty = tutor?.totalSlots === 0;
   const isBeforeStartDate = new Date() < new Date(tutor?.sessionStartDate);
   const isDisabled = isSlotEmpty || isBeforeStartDate;
+  const bookingStartDate = new Date(tutor?.sessionStartDate).toLocaleDateString("en-GB", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            });
 
   return (
     <>
@@ -26,10 +31,11 @@ const BookSessionBtn = ({ tutor }) => {
         {isSlotEmpty 
           ? "No Slots Left" 
           : isBeforeStartDate 
-            ? "Booking Not Started" 
+            ? `Bookings start on ${bookingStartDate}`
             : "Book Now"
         }
       </button>
+      {/* "Booking Not Started" ,  */}
 
       {/* মডাল কম্পোনেন্ট */}
       <BookSessionModal 

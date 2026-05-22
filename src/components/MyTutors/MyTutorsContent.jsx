@@ -6,7 +6,7 @@ import Image from "next/image";
 const MyTutorsContent = ({ tutorsPromise }) => {
 
     const tutors = use(tutorsPromise) || [];
-    console.log(tutors, "from my tutors content page")
+   
 
 
   return (

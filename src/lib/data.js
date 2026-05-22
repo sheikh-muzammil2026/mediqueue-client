@@ -1,23 +1,23 @@
 export const getAvailableTutorsPromise = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/availableTutors`);
+    const res = await fetch(`http://localhost:5000/availableTutors`);
     const data = await res.json();
     return data;
 };
 
 export const getAllTutorsPromise = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/allTutors`);
+    const res = await fetch(`http://localhost:5000/allTutors`);
     const data = await res.json();
     return data;
 };
 
 export const getSingleTutorPromise = async (tutorId) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/allTutors/${tutorId}`);
+    const res = await fetch(`http://localhost:5000/allTutors/${tutorId}`);
     const data = await res.json();
     return data;
 };
 
 export const getBookedSessionPromise = async (userId) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookedSession/${userId}`);
+    const res = await fetch(`http://localhost:5000/bookedSession/${userId}`);
     const data = await res.json();
     return data;
 };
