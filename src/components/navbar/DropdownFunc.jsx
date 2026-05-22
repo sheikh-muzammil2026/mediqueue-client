@@ -10,6 +10,7 @@ const DropdownFunc = ({handleLogoutButton, user}) => {
       <Dropdown.Trigger className="rounded-full">
         <Avatar>
           <Avatar.Image
+            referrerPolicy="no-referrer"
             alt={user?.name}
             src={user?.image || "https://i.ibb.co.com/vH9Y8M3/default-avatar.png"}
           />

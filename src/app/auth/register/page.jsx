@@ -31,6 +31,12 @@ const RegisterPage = () => {
   }
     
   }
+
+  const habdleGoogleLogin = async() =>{
+        const data = await authClient.signIn.social({
+            provider: "google",
+          });
+      };
     return (
          <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#020817] px-6 py-20">
       <div className="absolute bottom-[-120px] right-[-120px] h-[320px] w-[320px] rounded-full bg-blue-500/20 blur-3xl"></div>
@@ -119,7 +125,9 @@ const RegisterPage = () => {
           <div className="h-px flex-1 bg-white/10"></div>
         </div>
 
-        <button className="flex cursor-pointer w-full items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 font-semibold text-white transition-all duration-300 hover:border-cyan-400/30 hover:bg-cyan-400/10">
+        <button 
+        onClick={habdleGoogleLogin}
+        className="flex cursor-pointer w-full items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 font-semibold text-white transition-all duration-300 hover:border-cyan-400/30 hover:bg-cyan-400/10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 48 48"
