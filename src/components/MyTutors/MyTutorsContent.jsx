@@ -36,23 +36,38 @@ const MyTutorsContent = ({ tutorsPromise }) => {
     setIsEditOpen(true);
   };
 
-  const handleEditSubmit = async (e) => {
+ const handleEditSubmit = async (e) => {
     e.preventDefault();
     
     try {
-      // এখানে আপনার API কলটি করতে পারেন
-      // await fetch(`/api/tutors/${editFormData.id}`, { method: 'PUT', body: JSON.stringify(editFormData) })
+      // headers: { 'Content-Type': 'application/json' } যোগ করা হয়েছে
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/MyTutors/${editFormData.id}`, { 
+          method: 'PUT', 
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(editFormData) 
+      });
 
-      // UI স্টেট আপডেট (State Update)
-      setTutors(prevTutors =>
-        prevTutors.map(tutor =>
-          (tutor._id || tutor.id) === editFormData.id
-            ? { ...tutor, name: editFormData.name, subject: editFormData.subject, hourlyFee: editFormData.fee, photoUrl: editFormData.image }
-            : tutor
-        )
-      );
-      
-      setIsEditOpen(false);
+      const data = await response.json();
+
+      // ব্যাকএন্ডে আপডেট সফল হলে (modifiedCount > 0) তবেই UI আপডেট হবে
+      if (data.modifiedCount > 0 || data.matchedCount > 0) {
+        setTutors(prevTutors =>
+          prevTutors.map(tutor =>
+            (tutor._id || tutor.id) === editFormData.id
+              ? { 
+                  ...tutor, 
+                  name: editFormData.name, 
+                  subject: editFormData.subject, 
+                  hourlyFee: editFormData.fee, 
+                  photoUrl: editFormData.image 
+                }
+              : tutor
+          )
+        );
+        setIsEditOpen(false);
+      }
     } catch (error) {
       console.error("Update failed:", error);
     }
@@ -204,7 +219,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
                 <div>
                   <label className="block text-xs font-bold text-slate-600 uppercase mb-1">Hourly Fee ($)</label>
                   <input 
-                    type="number" 
+                    type="text" 
                     required
                     value={editFormData.fee}
                     onChange={(e) => setEditFormData({...editFormData, fee: Number(e.target.value)})}

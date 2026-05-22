@@ -3,10 +3,9 @@
 import React, { use } from "react";
 import Image from "next/image";
 
-// আমরা প্রপস থেকে sessionPromise রিসিভ করছি
+
 const BookedSessionContent = ({ sessionPromise }) => {
-    
-    // ৪.use হুক দিয়ে প্রমিস থেকে সরাসরি ডাটা নেওয়া হচ্ছে
+  
     const sessionData = use(sessionPromise) || [];
     console.log(sessionData);
   
