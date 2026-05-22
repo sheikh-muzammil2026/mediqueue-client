@@ -1,7 +1,7 @@
 'use client'
 import React, { Suspense, useMemo } from 'react';
 import MyTutorsContent from '@/components/MyTutors/MyTutorsContent';
-import { getBookedSessionPromise } from '@/lib/data';
+import { getMyTutorsPromise } from '@/lib/data';
 import { authClient } from '@/lib/auth-client';
 
 const MyTutorsPage = () => {
@@ -12,7 +12,7 @@ const MyTutorsPage = () => {
  
   const tutorsPromise = useMemo(() => {
     if (!userId) return Promise.resolve([]);
-    return getBookedSessionPromise(userId);
+    return getMyTutorsPromise(userId);
   }, [userId]);
 
      

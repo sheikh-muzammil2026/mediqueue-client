@@ -21,3 +21,9 @@ export const getBookedSessionPromise = async (userId) => {
     const data = await res.json();
     return data;
 };
+
+export const getMyTutorsPromise = async (userId) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/MyTutors/${userId}`);
+    const data = await res.json();
+    return data;
+};

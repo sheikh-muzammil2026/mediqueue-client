@@ -54,14 +54,14 @@ const MyTutorsContent = ({ tutorsPromise }) => {
                         <div className="flex items-center gap-3">
                           <div className="relative w-11 h-11 rounded-xl overflow-hidden border border-slate-200 flex-shrink-0">
                             <Image 
-                              src={tutor?.tutorImage || "https://i.ibb.co.com/XrH9m4Zt/avatar.png"} 
-                              alt={tutor?.tutorName || "Tutor"}
+                              src={tutor?.photoUrl || "https://i.ibb.co.com/XrH9m4Zt/avatar.png"} 
+                              alt={tutor?.name || "Tutor"}
                               fill
                               sizes="44px"
                               className="object-cover"
                             />
                           </div>
-                          <span className="font-bold text-slate-900">{tutor?.tutorName}</span>
+                          <span className="font-bold text-slate-900">{tutor?.name}</span>
                         </div>
                       </td>
 
@@ -72,7 +72,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
 
                       {/* Fee */}
                       <td className="py-4 px-6 font-bold text-slate-900">
-                        {tutor?.tutorFee || 0}
+                        {tutor?.hourlyFee || 0}
                       </td>
 
                       {/* Action Buttons */}

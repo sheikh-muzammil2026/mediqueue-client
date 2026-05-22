@@ -1,6 +1,83 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
+import { useState } from "react";
+import { toast } from "react-toastify";
+
 const AddTutorPage = () => {
+
+   const { data: session } = authClient.useSession();
+    const user = session?.user;
+    // console.log(user.id)
+    
+
+  // ১. সব ইনপুটের জন্য একটি সেন্ট্রাল স্টেট অবজেক্ট তৈরি করলাম
+  const [formData, setFormData] = useState({
+    name: '',
+    photoUrl: '',
+    subject: '',
+    teachingMode: '',
+    availableDays: '',
+    availableTime: '',
+    hourlyFee: '',
+    totalSlot: '',
+    sessionStartDate: '',
+    location: '',
+    institution: '',
+    experience: '',
+  })
+
+  // ফর্ম সাবমিট হওয়ার সময় লোডিং ট্র্যাকিংয়ের জন্য (ঐচ্ছিক)
+  const [loading, setLoading] = useState(false)
+
+  // ২. ইনপুট চেঞ্জ হ্যান্ডলার (টাইপ করার সাথে সাথে স্টেট আপডেট হবে)
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
+  // ৩. ফর্ম সাবমিট হ্যান্ডলার
+  const onSubmit = async (e) => {
+    e.preventDefault() // পেজ রিফ্রেশ হওয়া বন্ধ করবে
+    setLoading(true)
+
+
+    try {
+      // এখানে আপনি formData অবজেক্টের ভেতরে সব ডাটা একসাথে পেয়ে যাবেন
+     
+      const fullTutorData = {
+        ...formData,
+        userId: user.id // এখানে সরাসরি আইডি অ্যাড হয়ে যাচ্ছে
+      };
+
+       console.log('Submitted Data:', fullTutorData)
+
+      
+      const res = await fetch(`http://localhost:5000/MyTutors`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', // এই লাইনটি অত্যন্ত জরুরি
+          },
+        body: JSON.stringify(fullTutorData)
+      })
+
+      toast.success('Tutor profile created successfully!')
+      setFormData({
+        name: '', photoUrl: '', subject: '', teachingMode: '',
+        availableDays: '', availableTime: '', hourlyFee: '',
+        totalSlot: '', sessionStartDate: '', location: '',
+        institution: '', experience: ''
+      })
+
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
     return (
 
        <div className="min-h-screen bg-slate-50/50 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
@@ -20,7 +97,7 @@ const AddTutorPage = () => {
         </div>
 
         {/* Form Body */}
-        <form  className="space-y-6">
+        <form  onSubmit={onSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             {/* 1. Tutor Name */}
@@ -31,8 +108,8 @@ const AddTutorPage = () => {
                 name="name"
                 required
                 placeholder="e.g. Dr. Mahfuzur Rahman"
-                // value={formData.name}
-                // onChange={handleChange}
+                value={formData.name}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-900 font-medium"
               />
             </div>
@@ -45,8 +122,8 @@ const AddTutorPage = () => {
                 name="photoUrl"
                 required
                 placeholder="e.g. https://i.ibb.co/your-image.jpg"
-                // value={formData.photoUrl}
-                // onChange={handleChange}
+                value={formData.photoUrl}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-900 font-medium"
               />
             </div>
@@ -57,8 +134,8 @@ const AddTutorPage = () => {
               <select
                 name="subject"
                 required
-                // value={formData.subject}
-                // onChange={handleChange}
+                value={formData.subject}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-700 font-medium cursor-pointer"
               >
                 <option value="">Select a subject</option>
@@ -77,8 +154,8 @@ const AddTutorPage = () => {
               <select
                 name="teachingMode"
                 required
-                // value={formData.teachingMode}
-                // onChange={handleChange}
+                value={formData.teachingMode}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-700 font-medium cursor-pointer"
               >
                 <option value="">Select mode</option>
@@ -96,8 +173,8 @@ const AddTutorPage = () => {
                 name="availableDays"
                 required
                 placeholder="e.g. Sun - Thu"
-                // value={formData.availableDays}
-                // onChange={handleChange}
+                value={formData.availableDays}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-900 font-medium"
               />
             </div>
@@ -110,8 +187,8 @@ const AddTutorPage = () => {
                 name="availableTime"
                 required
                 placeholder="e.g. 5:00 PM - 8:00 PM"
-                // value={formData.availableTime}
-                // onChange={handleChange}
+                value={formData.availableTime}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-900 font-medium"
               />
             </div>
@@ -125,8 +202,8 @@ const AddTutorPage = () => {
                 required
                 min="0"
                 placeholder="e.g. 500"
-                // value={formData.hourlyFee}
-                // onChange={handleChange}
+                value={formData.hourlyFee}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-900 font-medium"
               />
             </div>
@@ -140,8 +217,8 @@ const AddTutorPage = () => {
                 required
                 min="1"
                 placeholder="e.g. 5"
-                // value={formData.totalSlot}
-                // onChange={handleChange}
+                value={formData.totalSlot}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-900 font-medium"
               />
             </div>
@@ -153,8 +230,8 @@ const AddTutorPage = () => {
                 type="date"
                 name="sessionStartDate"
                 required
-                // value={formData.sessionStartDate}
-                // onChange={handleChange}
+                value={formData.sessionStartDate}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-600 font-medium cursor-pointer"
               />
             </div>
@@ -167,8 +244,8 @@ const AddTutorPage = () => {
                 name="location"
                 required
                 placeholder="e.g. Dhanmondi, Dhaka"
-                // value={formData.location}
-                // onChange={handleChange}
+                value={formData.location}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-900 font-medium"
               />
             </div>
@@ -181,8 +258,8 @@ const AddTutorPage = () => {
                 name="institution"
                 required
                 placeholder="e.g. BUET / Dhaka University"
-                // value={formData.institution}
-                // onChange={handleChange}
+                value={formData.institution}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-900 font-medium"
               />
             </div>
@@ -195,8 +272,8 @@ const AddTutorPage = () => {
                 name="experience"
                 required
                 placeholder="e.g. 4 Years of Teaching"
-                // value={formData.experience}
-                // onChange={handleChange}
+                value={formData.experience}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-900 font-medium"
               />
             </div>
@@ -207,11 +284,11 @@ const AddTutorPage = () => {
           <div className="pt-4">
             <button
               type="submit"
-            //   disabled={loading}
+              disabled={loading}
               className="w-full py-4 bg-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-200 hover:bg-blue-700 disabled:bg-slate-400 transition-all uppercase tracking-wider text-sm cursor-pointer"
             >
-              Submit Tutor Profile
-              {/* {loading ? "Saving Profile..." : "Submit Tutor Profile"} */}
+             
+              {loading ? "Saving Profile..." : "Submit Tutor Profile"}
             </button>
           </div>
 

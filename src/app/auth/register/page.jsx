@@ -108,7 +108,7 @@ const RegisterPage = () => {
             />
           </div>
 
-          <button type='submit' className="mt-3 w-full rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-4 text-lg font-bold text-slate-950 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(34,211,238,0.35)]">
+          <button type='submit' className="mt-3 w-full cursor-pointer rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-4 text-lg font-bold text-slate-950 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(34,211,238,0.35)]">
             Create Account
           </button>
         </form>
@@ -119,7 +119,7 @@ const RegisterPage = () => {
           <div className="h-px flex-1 bg-white/10"></div>
         </div>
 
-        <button className="flex w-full items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 font-semibold text-white transition-all duration-300 hover:border-cyan-400/30 hover:bg-cyan-400/10">
+        <button className="flex cursor-pointer w-full items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 font-semibold text-white transition-all duration-300 hover:border-cyan-400/30 hover:bg-cyan-400/10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 48 48"
@@ -136,7 +136,7 @@ const RegisterPage = () => {
 
         <p className="mt-8 text-center text-slate-400">
           Already have an account?
-          <button className="ml-2 font-semibold text-cyan-300 transition hover:text-cyan-200">
+          <button className="ml-2 cursor-pointer font-semibold text-cyan-300 transition hover:text-cyan-200">
             Login
           </button>
         </p>
