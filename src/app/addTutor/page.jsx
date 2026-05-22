@@ -11,7 +11,6 @@ const AddTutorPage = () => {
     // console.log(user.id)
     
 
-  // ১. সব ইনপুটের জন্য একটি সেন্ট্রাল স্টেট অবজেক্ট তৈরি করলাম
   const [formData, setFormData] = useState({
     name: '',
     photoUrl: '',
@@ -27,10 +26,8 @@ const AddTutorPage = () => {
     experience: '',
   })
 
-  // ফর্ম সাবমিট হওয়ার সময় লোডিং ট্র্যাকিংয়ের জন্য (ঐচ্ছিক)
   const [loading, setLoading] = useState(false)
 
-  // ২. ইনপুট চেঞ্জ হ্যান্ডলার (টাইপ করার সাথে সাথে স্টেট আপডেট হবে)
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({
@@ -39,27 +36,26 @@ const AddTutorPage = () => {
     }))
   }
 
-  // ৩. ফর্ম সাবমিট হ্যান্ডলার
   const onSubmit = async (e) => {
-    e.preventDefault() // পেজ রিফ্রেশ হওয়া বন্ধ করবে
+    e.preventDefault() 
     setLoading(true)
 
 
     try {
-      // এখানে আপনি formData অবজেক্টের ভেতরে সব ডাটা একসাথে পেয়ে যাবেন
+     
      
       const fullTutorData = {
         ...formData,
-        userId: user.id // এখানে সরাসরি আইডি অ্যাড হয়ে যাচ্ছে
+        userId: user.id 
       };
 
-       console.log('Submitted Data:', fullTutorData)
+
 
       
-      const res = await fetch(`http://localhost:5000/MyTutors`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/MyTutors`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json', // এই লাইনটি অত্যন্ত জরুরি
+            'Content-Type': 'application/json', 
           },
         body: JSON.stringify(fullTutorData)
       })

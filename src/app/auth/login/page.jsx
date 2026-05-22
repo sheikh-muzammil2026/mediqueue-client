@@ -80,7 +80,7 @@ const LoginPage = () => {
 
               <button
                 type="button"
-                className="text-sm text-cyan-300 transition hover:text-cyan-200"
+                className="text-sm cursor-pointer text-cyan-300 transition hover:text-cyan-200"
               >
                 Forgot Password?
               </button>
@@ -107,7 +107,7 @@ const LoginPage = () => {
 
         <button 
         onClick={habdleGoogleLogin}
-        className="flex w-full items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 font-semibold text-white transition-all duration-300 hover:border-cyan-400/30 hover:bg-cyan-400/10">
+        className="flex w-full items-center cursor-pointer justify-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 font-semibold text-white transition-all duration-300 hover:border-cyan-400/30 hover:bg-cyan-400/10">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 48 48"
@@ -124,7 +124,7 @@ const LoginPage = () => {
 
         <p className="mt-8 text-center text-slate-400">
           Don’t have an account?
-         <Link href={"/auth/register"}> <button className="ml-2 font-semibold text-cyan-300 transition hover:text-cyan-200">
+         <Link href={"/auth/register"}> <button className="ml-2 cursor-pointer font-semibold text-cyan-300 transition hover:text-cyan-200">
             Register
           </button></Link>
         </p>
