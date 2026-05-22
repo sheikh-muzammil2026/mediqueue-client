@@ -1,13 +1,86 @@
 "use client";
 
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import Image from "next/image";
 
 const MyTutorsContent = ({ tutorsPromise }) => {
+  // Promise থেকে টিউটর ডেটা নেওয়া
+  const initialTutors = use(tutorsPromise) || [];
+  
+  // UI-তে ইনস্ট্যান্ট আপডেট দেখানোর জন্য State
+  const [tutors, setTutors] = useState(initialTutors);
 
-    const tutors = use(tutorsPromise) || [];
-   
+  // Modal এবং Form State-সমূহ
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [selectedTutor, setSelectedTutor] = useState(null);
+  
+  const [editFormData, setEditFormData] = useState({
+    id: "",
+    name: "",
+    subject: "",
+    fee: 0,
+    image: "",
+  });
 
+  // --- UPDATE LOGIC ---
+  const handleEditClick = (tutor) => {
+    setSelectedTutor(tutor);
+    setEditFormData({
+      id: tutor._id || tutor.id, // আপনার ডেটাবেজের আইডি অনুসারে পরিবর্তন করে নিতে পারেন
+      name: tutor.name || "",
+      subject: tutor.subject || "",
+      fee: tutor.hourlyFee || 0,
+      image: tutor.photoUrl || "",
+    });
+    setIsEditOpen(true);
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      // এখানে আপনার API কলটি করতে পারেন
+      // await fetch(`/api/tutors/${editFormData.id}`, { method: 'PUT', body: JSON.stringify(editFormData) })
+
+      // UI স্টেট আপডেট (State Update)
+      setTutors(prevTutors =>
+        prevTutors.map(tutor =>
+          (tutor._id || tutor.id) === editFormData.id
+            ? { ...tutor, name: editFormData.name, subject: editFormData.subject, hourlyFee: editFormData.fee, photoUrl: editFormData.image }
+            : tutor
+        )
+      );
+      
+      setIsEditOpen(false);
+    } catch (error) {
+      console.error("Update failed:", error);
+    }
+  };
+
+  // --- DELETE LOGIC ---
+  const handleDeleteClick = (tutor) => {
+    setSelectedTutor(tutor);
+    setIsDeleteOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    const tutorId = selectedTutor?._id;
+    
+    
+    try {
+      // এখানে আপনার ডিলিট API কলটি করতে পারেন
+      await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/MyTutors/${tutorId}`,
+         { method: 'DELETE' }
+        )
+
+      // UI থেকে ডিলিট করা (State Update)
+      setTutors(prevTutors => prevTutors.filter(tutor => (tutor._id || tutor.id) !== tutorId));
+      setIsDeleteOpen(false);
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-50/50 py-12 px-4 sm:px-6 lg:px-8">
@@ -21,7 +94,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
           </p>
         </div>
 
-        {/* Empty State (কোনো টিউটর না থাকলে) */}
+        {/* Empty State */}
         {tutors.length === 0 ? (
           <div className="bg-white rounded-3xl border border-slate-200/60 p-12 text-center shadow-sm max-w-md mx-auto mt-12">
             <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -46,8 +119,8 @@ const MyTutorsContent = ({ tutorsPromise }) => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-sm">
-                  {tutors?.map((tutor, index) => (
-                    <tr key={index} className="hover:bg-slate-50/50 transition-colors">
+                  {tutors.map((tutor, index) => (
+                    <tr key={tutor._id || tutor.id || index} className="hover:bg-slate-50/50 transition-colors">
                       
                       {/* Tutor Image & Name */}
                       <td className="py-4 px-6">
@@ -78,13 +151,13 @@ const MyTutorsContent = ({ tutorsPromise }) => {
                       {/* Action Buttons */}
                       <td className="py-4 px-6 text-right flex justify-end gap-2">
                         <button 
-                          // onClick={() => handleEditClick(tutor)}
+                          onClick={() => handleEditClick(tutor)}
                           className="text-xs font-bold bg-white text-blue-600 border border-blue-200 px-3 py-2 rounded-xl shadow-sm hover:bg-blue-50 active:scale-95 transition-all cursor-pointer"
                         >
                           Update
                         </button>
                         <button 
-                          // onClick={() => handleDeleteClick(tutor)}
+                          onClick={() => handleDeleteClick(tutor)}
                           className="text-xs font-bold bg-white text-red-600 border border-red-200 px-3 py-2 rounded-xl shadow-sm hover:bg-red-50 active:scale-95 transition-all cursor-pointer"
                         >
                           Delete
@@ -100,7 +173,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
         )}
 
         {/* ================= UPDATE MODAL ================= */}
-        {/* {isEditOpen && (
+        {isEditOpen && (
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-150">
               <h2 className="text-xl font-black text-slate-900 mb-4">Update Tutor Information</h2>
@@ -134,7 +207,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
                     type="number" 
                     required
                     value={editFormData.fee}
-                    onChange={(e) => setEditFormData({...editFormData, fee: e.target.value})}
+                    onChange={(e) => setEditFormData({...editFormData, fee: Number(e.target.value)})}
                     className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors"
                   />
                 </div>
@@ -168,10 +241,10 @@ const MyTutorsContent = ({ tutorsPromise }) => {
               </form>
             </div>
           </div>
-        )} */}
+        )}
 
         {/* ================= CONFIRM DELETE MODAL ================= */}
-        {/* {isDeleteOpen && (
+        {isDeleteOpen && (
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center animate-in fade-in zoom-in-95 duration-150">
               <div className="w-12 h-12 bg-red-50 text-red-600 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
@@ -198,7 +271,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
               </div>
             </div>
           </div>
-        )} */}
+        )}
 
       </div>
     </div>
