@@ -1,14 +1,40 @@
 "use client";
 
-import React, { use } from "react";
+import React, { use, useState, useEffect } from "react";
 import Image from "next/image";
 
-
 const BookedSessionContent = ({ sessionPromise }) => {
-  
-    const sessionData = use(sessionPromise) || [];
-    console.log(sessionData);
-  
+    // initial ডেটা promise থেকে নেওয়া হচ্ছে
+    const initialSessions = use(sessionPromise);
+    
+    // UI স্টেট ম্যানেজ করার জন্য লোকাল স্টেট
+    const [sessions, setSessions] = useState(initialSessions);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [selectedSession, setSelectedSession] = useState(null);
+
+    // --- DELETE LOGIC ---
+    const handleDeleteClick = (session) => {
+      setSelectedSession(session);
+      setIsDeleteOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+      const sessionId = selectedSession?._id;
+      
+      try {
+        // MongoDB ID (_id) ধরে ডিলিট API কল
+        await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookedSession/${sessionId}`, { 
+          method: 'DELETE' 
+        });
+
+        // UI থেকে ডিলিট করা (State Update)
+        setSessions(prevSessions => prevSessions.filter(session => session._id !== sessionId));
+        setIsDeleteOpen(false);
+        setSelectedSession(null);
+      } catch (error) {
+        console.error("Delete failed:", error);
+      }
+    };
 
   return (
     <div className="min-h-screen bg-slate-50/50 py-12 px-4 sm:px-6 lg:px-8">
@@ -23,7 +49,7 @@ const BookedSessionContent = ({ sessionPromise }) => {
         </div>
 
         {/* Conditional Rendering */}
-        {sessionData.length === 0 ? (
+        {sessions.length === 0 ? (
           <div className="bg-white rounded-3xl border border-slate-200/60 p-12 text-center shadow-sm max-w-md mx-auto mt-12">
             <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-2xl">📅</span>
@@ -52,7 +78,7 @@ const BookedSessionContent = ({ sessionPromise }) => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 text-sm">
-                  {sessionData.map((session) => (
+                  {sessions.map((session) => (
                     <tr key={session?._id} className="hover:bg-slate-50/50 transition-colors">
                       
                       {/* Tutor Image & Name */}
@@ -69,19 +95,19 @@ const BookedSessionContent = ({ sessionPromise }) => {
                           </div>
                           <div className="flex flex-col">
                             <span className="font-bold text-slate-900">{session?.tutorName}</span>
-                          <span className=" text-slate-400">{session?.subject || "N/A"}</span>
+                            <span className=" text-slate-400">{session?.subject || "N/A"}</span>
                           </div>
                         </div>
                       </td>
 
-                      {/* Subject */}
+                      {/* Student Name */}
                       <td className="py-4 px-6 text-slate-600 font-medium">
                         {session?.userName || "N/A"}
                       </td>
 
-                      {/* Price */}
+                      {/* Student Email */}
                       <td className="py-4 px-6 font-bold text-slate-900">
-                        {session?.userEmail || 0}
+                        {session?.userEmail || "N/A"}
                       </td>
 
                       {/* Booking Date */}
@@ -108,18 +134,47 @@ const BookedSessionContent = ({ sessionPromise }) => {
                       {/* Action Button */}
                       <td className="py-4 px-6 text-right">
                         <button 
-                          onClick={() => alert(`Review modal for ${session?.tutorName} coming soon!`)}
-                          className="text-xs font-bold bg-white text-red-500 border border-slate-200 px-3 py-2 rounded-xl shadow-sm hover:bg-slate-50 hover:text-blue-600 active:scale-95 transition-all cursor-pointer"
+                          onClick={() => handleDeleteClick(session)}
+                          className="text-xs font-bold bg-white text-red-500 border border-slate-200 px-3 py-2 rounded-xl shadow-sm hover:bg-red-50 transition-all cursor-pointer"
                         >
                           Cancel
                         </button>
-                        
                       </td>
 
                     </tr>
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+         {/* ================= CONFIRM DELETE MODAL ================= */}
+        {isDeleteOpen && (
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center animate-in fade-in zoom-in-95 duration-150">
+              <div className="w-12 h-12 bg-red-50 text-red-600 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                ⚠️
+              </div>
+              <h2 className="text-lg font-black text-slate-900">Are you absolutely sure?</h2>
+              <p className="text-slate-500 text-xs mt-1 mb-6">
+                This will permanently delete the session with <span className="font-bold text-slate-700">{selectedSession?.tutorName}</span>. This action cannot be undone.
+              </p>
+              
+              <div className="flex justify-center gap-2">
+                <button 
+                  onClick={() => setIsDeleteOpen(false)}
+                  className="px-4 py-2 text-sm font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer"
+                >
+                  No, Cancel
+                </button>
+                <button 
+                  onClick={handleConfirmDelete}
+                  className="px-4 py-2 text-sm font-bold bg-red-600 text-white rounded-xl shadow-md hover:bg-red-700 transition-colors cursor-pointer"
+                >
+                  Yes, Cancel Booking
+                </button>
+              </div>
             </div>
           </div>
         )}

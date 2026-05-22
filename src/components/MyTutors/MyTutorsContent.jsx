@@ -4,13 +4,13 @@ import React, { use, useState } from "react";
 import Image from "next/image";
 
 const MyTutorsContent = ({ tutorsPromise }) => {
-  // Promise থেকে টিউটর ডেটা নেওয়া
+ 
   const initialTutors = use(tutorsPromise) || [];
   
-  // UI-তে ইনস্ট্যান্ট আপডেট দেখানোর জন্য State
+  
   const [tutors, setTutors] = useState(initialTutors);
 
-  // Modal এবং Form State-সমূহ
+  
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedTutor, setSelectedTutor] = useState(null);
@@ -27,7 +27,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
   const handleEditClick = (tutor) => {
     setSelectedTutor(tutor);
     setEditFormData({
-      id: tutor._id || tutor.id, // আপনার ডেটাবেজের আইডি অনুসারে পরিবর্তন করে নিতে পারেন
+      id: tutor._id || tutor.id, 
       name: tutor.name || "",
       subject: tutor.subject || "",
       fee: tutor.hourlyFee || 0,
@@ -40,7 +40,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
     e.preventDefault();
     
     try {
-      // headers: { 'Content-Type': 'application/json' } যোগ করা হয়েছে
+     
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/MyTutors/${editFormData.id}`, { 
           method: 'PUT', 
           headers: {
@@ -51,7 +51,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
 
       const data = await response.json();
 
-      // ব্যাকএন্ডে আপডেট সফল হলে (modifiedCount > 0) তবেই UI আপডেট হবে
+      
       if (data.modifiedCount > 0 || data.matchedCount > 0) {
         setTutors(prevTutors =>
           prevTutors.map(tutor =>
@@ -84,12 +84,12 @@ const MyTutorsContent = ({ tutorsPromise }) => {
     
     
     try {
-      // এখানে আপনার ডিলিট API কলটি করতে পারেন
+      
       await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/MyTutors/${tutorId}`,
          { method: 'DELETE' }
         )
 
-      // UI থেকে ডিলিট করা (State Update)
+     
       setTutors(prevTutors => prevTutors.filter(tutor => (tutor._id || tutor.id) !== tutorId));
       setIsDeleteOpen(false);
     } catch (error) {
@@ -160,7 +160,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
 
                       {/* Fee */}
                       <td className="py-4 px-6 font-bold text-slate-900">
-                        {tutor?.hourlyFee || 0}
+                        ${tutor?.hourlyFee || 0}/hr
                       </td>
 
                       {/* Action Buttons */}
@@ -219,7 +219,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
                 <div>
                   <label className="block text-xs font-bold text-slate-600 uppercase mb-1">Hourly Fee ($)</label>
                   <input 
-                    type="text" 
+                    type="number" 
                     required
                     value={editFormData.fee}
                     onChange={(e) => setEditFormData({...editFormData, fee: Number(e.target.value)})}
@@ -292,5 +292,6 @@ const MyTutorsContent = ({ tutorsPromise }) => {
     </div>
   );
 };
+
 
 export default MyTutorsContent;

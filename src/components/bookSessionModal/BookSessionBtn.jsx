@@ -18,7 +18,7 @@ const BookSessionBtn = ({ tutor }) => {
 
   return (
     <>
-      {/* মডাল ওপেন করার বাটন */}
+     
       <button 
         onClick={() => !isDisabled && setIsOpen(true)}
         disabled={isDisabled}
@@ -35,9 +35,9 @@ const BookSessionBtn = ({ tutor }) => {
             : "Book Now"
         }
       </button>
-      {/* "Booking Not Started" ,  */}
+      
 
-      {/* মডাল কম্পোনেন্ট */}
+     
       <BookSessionModal 
         isOpen={isOpen} 
         onClose={() => setIsOpen(false)} 

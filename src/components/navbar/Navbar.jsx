@@ -5,6 +5,7 @@ import { authClient } from "@/lib/auth-client"
 import { useRouter } from "next/navigation";
 import MyNavLinks from './MyNavLinks';
 import DropdownFunc from './DropdownFunc';
+import ThemeToggle from '../theme/ThemeToggle';
 
 
 
@@ -58,6 +59,8 @@ const Navbar =  () => {
           < MyNavLinks user={user} />
         </nav>
 
+          <ThemeToggle />
+
         <div className="flex items-center gap-4">
 
           {
@@ -70,11 +73,11 @@ const Navbar =  () => {
             :
 
             <>
-            <Link href={"/auth/login"}><button className="hidden rounded-full border border-cyan-400/20 bg-cyan-400/10 px-5 py-2 text-sm font-medium text-cyan-300 transition-all duration-300 hover:bg-cyan-400/20 md:block">
+            <Link href={"/auth/login"}><button className="hidden cursor-pointer rounded-full border border-cyan-400/20 bg-cyan-400/10 px-5 py-2 text-sm font-medium text-cyan-300 transition-all duration-300 hover:bg-cyan-400/20 md:block">
             Login
           </button></Link>
 
-          <Link href={'/auth/register'}><button className="rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(34,211,238,0.45)]">
+          <Link href={'/auth/register'}><button className="rounded-full cursor-pointer bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-3 text-sm font-bold text-slate-950 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(34,211,238,0.45)]">
             Register
           </button></Link>
             </>

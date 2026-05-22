@@ -27,3 +27,4 @@ export const getMyTutorsPromise = async (userId) => {
     const data = await res.json();
     return data;
 };
+
