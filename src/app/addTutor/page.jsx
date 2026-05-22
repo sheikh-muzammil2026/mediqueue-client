@@ -195,13 +195,13 @@ const AddTutorPage = () => {
 
             {/* 7. Hourly Fee */}
             <div className="space-y-1.5">
-              <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Hourly Fee (BDT)</label>
+              <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Hourly Fee ($)</label>
               <input
                 type="number"
                 name="hourlyFee"
                 required
                 min="0"
-                placeholder="e.g. 500"
+                placeholder="e.g. $15"
                 value={formData.hourlyFee}
                 onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-slate-900 font-medium"
