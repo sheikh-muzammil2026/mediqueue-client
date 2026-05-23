@@ -1,8 +1,8 @@
 # MediQueue – Tutor Booking System
 
 🔗 Live Website: https://mediqueue-client-ochre.vercel.app  
-🔗 Client Repository: https://github.com/your-username/client-side-repo  
-🔗 Server Repository: https://github.com/your-username/server-side-repo  
+🔗 Client Repository: https://github.com/sheikh-muzammil2026/mediqueue-client
+🔗 Server Repository: https://github.com/sheikh-muzammil2026/mediqueue-server
 
 ---
 
@@ -80,72 +80,11 @@ The platform simplifies tutor scheduling by managing session availability, booki
 - Tutor Details Page
 - Add Tutor Page
 - My Tutors Page
-- My Booked Sessions Page
+- Booked Sessions Page
 - Login Page
 - Register Page
 - 404 Page
 
----
-
-# ⚙️ Environment Variables
-
-## Client Side
-
-```env
-NEXT_PUBLIC_SERVER_URL=your_server_url
-```
-
-## Server Side
-
-```env
-MONGODB_URI=your_mongodb_uri
-BETTER_AUTH_SECRET=your_secret
-BETTER_AUTH_URL=your_server_url
-```
-
----
-
-# 📦 Installation & Setup
-
-## Clone Client
-
-```bash
-git clone https://github.com/your-username/client-side-repo.git
-```
-
-## Install Dependencies
-
-```bash
-npm install
-```
-
-## Run Client
-
-```bash
-npm run dev
-```
-
----
-
-# 🖥️ Server Setup
-
-## Clone Server
-
-```bash
-git clone https://github.com/your-username/server-side-repo.git
-```
-
-## Install Dependencies
-
-```bash
-npm install
-```
-
-## Run Server
-
-```bash
-npm start
-```
 
 ---
 
