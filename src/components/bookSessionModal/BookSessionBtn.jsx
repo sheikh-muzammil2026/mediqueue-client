@@ -2,9 +2,16 @@
 
 import { useState } from "react";
 import BookSessionModal from "./BookSessionModal"; 
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+
 
 const BookSessionBtn = ({ tutor }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const route = useRouter();
+
+  const { data: session } = authClient.useSession() 
+  const user = session?.user;
 
 
   const isSlotEmpty = tutor?.totalSlots === 0;
@@ -16,11 +23,22 @@ const BookSessionBtn = ({ tutor }) => {
                               year: "numeric",
                             });
 
+
+  const handleBookNowButton = () => {
+      if (user) {
+        if (!isDisabled) {
+          setIsOpen(true);
+        }
+      } else {
+        route.push('/auth/login');
+      }
+    };
+
   return (
     <>
      
       <button 
-        onClick={() => !isDisabled && setIsOpen(true)}
+        onClick={handleBookNowButton}
         disabled={isDisabled}
         className={`w-full px-5 py-4 font-bold rounded-2xl transition-all duration-300 ${
           isDisabled 
