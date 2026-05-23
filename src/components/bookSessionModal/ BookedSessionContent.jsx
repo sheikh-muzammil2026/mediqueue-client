@@ -4,15 +4,15 @@ import React, { use, useState, useEffect } from "react";
 import Image from "next/image";
 
 const BookedSessionContent = ({ sessionPromise }) => {
-    // initial ডেটা promise থেকে নেওয়া হচ্ছে
+   
     const initialSessions = use(sessionPromise);
     
-    // UI স্টেট ম্যানেজ করার জন্য লোকাল স্টেট
+    
     const [sessions, setSessions] = useState(initialSessions);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [selectedSession, setSelectedSession] = useState(null);
 
-    // --- DELETE LOGIC ---
+   
     const handleDeleteClick = (session) => {
       setSelectedSession(session);
       setIsDeleteOpen(true);
@@ -22,12 +22,12 @@ const BookedSessionContent = ({ sessionPromise }) => {
       const sessionId = selectedSession?._id;
       
       try {
-        // MongoDB ID (_id) ধরে ডিলিট API কল
+        
         await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookedSession/${sessionId}`, { 
           method: 'DELETE' 
         });
 
-        // UI থেকে ডিলিট করা (State Update)
+       
         setSessions(prevSessions => prevSessions.filter(session => session._id !== sessionId));
         setIsDeleteOpen(false);
         setSelectedSession(null);
@@ -149,7 +149,7 @@ const BookedSessionContent = ({ sessionPromise }) => {
           </div>
         )}
 
-         {/* ================= CONFIRM DELETE MODAL ================= */}
+         
         {isDeleteOpen && (
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center animate-in fade-in zoom-in-95 duration-150">

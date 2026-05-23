@@ -8,7 +8,7 @@ const AddTutorPage = () => {
 
    const { data: session } = authClient.useSession();
     const user = session?.user;
-    // console.log(user.id)
+   
     
 
   const [formData, setFormData] = useState({

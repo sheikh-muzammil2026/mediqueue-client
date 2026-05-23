@@ -9,9 +9,9 @@ import { FcGoogle } from "react-icons/fc";
 const RegisterPage = () => {
   const router = useRouter();
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false); // স্পিনার বা ডিজেবল স্টেটের জন্য
+  const [loading, setLoading] = useState(false); 
 
-  // ================= REGISTER SUBMIT =================
+ 
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -19,7 +19,7 @@ const RegisterPage = () => {
     const user = Object.fromEntries(formData.entries());
     const password = user.password;
 
-    // ================= PASSWORD VALIDATION =================
+   
     const hasUppercase = /[A-Z]/.test(password);
     const hasLowercase = /[a-z]/.test(password);
     const hasMinLength = password.length >= 6;
@@ -35,34 +35,34 @@ const RegisterPage = () => {
     setError("");
     setLoading(true);
 
-    // ================= SIGN UP WITH TRY-CATCH =================
+    
     try {
       const response = await authClient.signUp.email({
         email: user.email,
         password: user.password,
         name: user.name,
-        image: user.image || "", // ইমেজ না দিলে যেন ক্র্যাশ না করে ফাঁকা স্ট্রিং পাঠানো
+        image: user.image || "", 
       });
 
-      // Better-Auth সফল হলে response-এর ভেতর data বা ব্যবহারকারীর তথ্য থাকে
+     
       if (response) {
         toast.success("Registration successful");
-        router.push("/auth/login"); // রিকোয়ারমেন্ট অনুযায়ী লগইন পেজে রিডাইরেক্ট
+        router.push("/auth/login"); 
       }
     } catch (err) {
-      // কোনো এরর আসলে তা টোস্টে দেখানো হচ্ছে
+     
       toast.error(err?.message || "Something went wrong during registration");
     } finally {
       setLoading(false);
     }
   };
 
-  // ================= GOOGLE LOGIN =================
+ 
   const handleGoogleLogin = async () => {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/", // রিকোয়ারমেন্ট অনুযায়ী গুগলে লগইন শেষে সরাসরি হোম পেজে যাবে
+        callbackURL: "/", 
       });
     } catch (err) {
       toast.error(err?.message || "Google login failed");

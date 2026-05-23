@@ -23,7 +23,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
     image: "",
   });
 
-  // --- UPDATE LOGIC ---
+  
   const handleEditClick = (tutor) => {
     setSelectedTutor(tutor);
     setEditFormData({
@@ -73,7 +73,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
     }
   };
 
-  // --- DELETE LOGIC ---
+  
   const handleDeleteClick = (tutor) => {
     setSelectedTutor(tutor);
     setIsDeleteOpen(true);
@@ -187,7 +187,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
           </div>
         )}
 
-        {/* ================= UPDATE MODAL ================= */}
+       
         {isEditOpen && (
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-150">
@@ -258,7 +258,7 @@ const MyTutorsContent = ({ tutorsPromise }) => {
           </div>
         )}
 
-        {/* ================= CONFIRM DELETE MODAL ================= */}
+        
         {isDeleteOpen && (
           <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 text-center animate-in fade-in zoom-in-95 duration-150">

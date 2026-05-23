@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
  
 
 const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
-  // If the modal is not open, it will render nothing
+ 
   if (!isOpen) return null;
       const { data: session, } = authClient.useSession();
       const user = session?.user;
@@ -96,7 +96,7 @@ const BookSessionModal = ({ isOpen, onClose, tutorData }) => {
         />
       </div>
 
-      {/* Tutor ID & Name (Grid Layout - Readonly as requested for assignment) */}
+     
       <div className="grid grid-cols-3 gap-3">
         <div className="col-span-1">
           <label className="block text-xs font-semibold text-slate-600 mb-1">Tutor ID</label>

@@ -11,7 +11,7 @@ const BookedSessionPage = () => {
 
 
   const sessionPromise = useMemo(() => {
-    if (!userId) return Promise.resolve([]); // userId না থাকলে ফাঁকা প্রমিস
+    if (!userId) return Promise.resolve([]); 
     return getBookedSessionPromise(userId);
   }, [userId]);
 

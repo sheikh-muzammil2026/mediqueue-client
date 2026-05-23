@@ -5,20 +5,42 @@ import Image from 'next/image';
 const TutorDetailsPage = async ({ params }) => {
   const { id } = await params;
   const tutor = await getSingleTutorPromise(id);
-  // console.log(tutor, "from tutor details page");
   
   
+  const totalSlots = tutor?.totalSlots || 0;
+ 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); 
+  
+  const sessionDate = tutor?.sessionStartDate ? new Date(tutor.sessionStartDate) : null;
+  if (sessionDate) {
+    sessionDate.setHours(0, 0, 0, 0);
+  }
+
+  let isBookingBlocked = false;
+  let bookingMessage = "";
+
+
+  if (totalSlots === 0) {
+    isBookingBlocked = true;
+    bookingMessage = "No available slots left.";
+  } 
+ 
+  else if (sessionDate && today < sessionDate) {
+    isBookingBlocked = true;
+    bookingMessage = "Booking is not available yet for this tutor";
+  }
+ 
   return (
     <div className="w-full max-w-6xl mx-auto my-12 px-4 sm:px-6 lg:px-8">
-      {/* Main Grid Container */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         
-        {/* LEFT & CENTER: Primary Tutor Details & Analytics */}
+       
         <div className="lg:col-span-2 space-y-8">
           
-          {/* Profile Header Block */}
+        
           <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-sm">
-            {/* Badges & Meta Info */}
             <div className="flex flex-wrap gap-2 items-center mb-4">
               <span className="bg-blue-600 text-white text-[10px] uppercase tracking-widest px-3 py-1 rounded-full font-bold shadow-sm shadow-blue-200">
                 Verified Tutor
@@ -28,7 +50,6 @@ const TutorDetailsPage = async ({ params }) => {
               </span>
             </div>
 
-            {/* Tutor Identity */}
             <div className="space-y-3">
               <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
                 {tutor?.name}
@@ -38,7 +59,6 @@ const TutorDetailsPage = async ({ params }) => {
               </p>
             </div>
 
-            {/* Institution & Credentials */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-slate-600 text-sm border-t border-slate-100 mt-6 pt-6">
               <div className="flex items-center gap-2">
                 <span className="font-semibold text-slate-800 bg-slate-50 border border-slate-200/60 px-3 py-1.5 rounded-xl shadow-2v">
@@ -52,21 +72,20 @@ const TutorDetailsPage = async ({ params }) => {
             </div>
           </div>
 
-          {/* About / Biography Section */}
+         
           <div className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-sm space-y-4">
             <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
               📝 About the Tutor
             </h2>
             <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
-              {tutor?.bio || `${tutor?.name} is a dedicated educator specializing in ${tutor?.subject || "their field"}. With a strong background at ${tutor?.institution || "their institution"}, they focus on helping students clear their core concepts and achieve academic excellence.`}
+              {tutor?.bio || `${tutor?.name} is a dedicated educator specializing in ${tutor?.subject || "their field"}.`}
             </p>
           </div>
 
-          {/* Dynamic Features Grid */}
+         
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             
-            {/* Schedule Component */}
-            <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm transition-all hover:shadow-md">
+            <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2.5 bg-amber-50 rounded-2xl text-amber-600 border border-amber-100">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,19 +94,16 @@ const TutorDetailsPage = async ({ params }) => {
                 </div>
                 <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Availability</h3>
               </div>
-              
               <p className="text-slate-900 font-bold text-base">
-                {tutor?.availableDays && tutor.availableDays.length > 0 
-                  ? tutor.availableDays.join(', ') 
-                  : "Not Specified"}
+                {tutor?.availableDays?.length > 0 ? tutor.availableDays.join(', ') : "Not Specified"}
               </p>
               <p className="text-slate-500 text-xs mt-1.5 font-medium bg-slate-50 inline-block px-2.5 py-1 rounded-lg border border-slate-100">
                 🕒 {tutor?.availableTime || "Flexible Time"}
               </p>
             </div>
 
-            {/* Location details */}
-            <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm transition-all hover:shadow-md">
+            {/* Location */}
+            <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2.5 bg-indigo-50 rounded-2xl text-indigo-600 border border-indigo-100">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,71 +112,61 @@ const TutorDetailsPage = async ({ params }) => {
                 </div>
                 <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Location Status</h3>
               </div>
-              <p className="text-slate-900 font-bold text-base truncate">
-                {tutor?.location || "Remote / Global"}
-              </p>
+              <p className="text-slate-900 font-bold text-base truncate">{tutor?.location || "Remote / Global"}</p>
               <p className="text-slate-500 text-xs mt-1.5 font-medium bg-slate-50 inline-block px-2.5 py-1 rounded-lg border border-slate-100">
                 📍 Support Available
               </p>
             </div>
-
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Premium Photo & Pricing Showcase Card */}
+        {/* RIGHT COLUMN */}
         <div className="lg:sticky lg:top-8 bg-white rounded-3xl border border-slate-200/90 p-6 shadow-xl shadow-slate-200/40 space-y-6">
-          
-          {/* Immersive Photo Frame */}
-          <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] rounded-2xl overflow-hidden shadow-inner border border-slate-100 group">
+          <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-100">
             <Image
               src={tutor?.image || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600"} 
               alt={tutor?.name || "Premium Tutor"}
               fill
               sizes="(max-w-1024px) 100vw, 350px"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent"></div>
           </div>
 
-          {/* Pricing Matrix */}
+          {/* Pricing & Slots Matrix */}
           <div className="bg-slate-50/80 p-4 rounded-2xl border border-slate-200/60">
             <div className="grid grid-cols-2 gap-4 text-center">
-              {/* Tuition Rate Box */}
               <div className="space-y-1 border-r border-slate-200/80 pr-2">
                 <span className="text-slate-500 text-xs font-semibold uppercase tracking-wider">Hourly Rate</span>
-                <p className="text-2xl font-black text-slate-900">
-                  ${tutor?.hourlyFee || 0}<span className="text-xs text-slate-500 font-medium">/hr</span>
-                </p>
+                <p className="text-2xl font-black text-slate-900">${tutor?.hourlyFee || 0}/hr</p>
               </div>
 
-              {/* Total Slots Box */}
               <div className="space-y-1 pl-2">
                 <span className="text-slate-500 text-xs font-semibold uppercase tracking-wider">Total Slots</span>
-                <p className="text-2xl font-black text-blue-600">
-                  {tutor?.totalSlots || 0}
+                <p className={`text-2xl font-black ${totalSlots === 0 ? 'text-red-500' : 'text-blue-600'}`}>
+                  {totalSlots}
                 </p>
               </div>
             </div>
           </div>
           
-          {/* Call to Action Button Container */}
+         
+          {isBookingBlocked && (
+            <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-sm font-semibold rounded-xl text-center">
+              ⚠️ {bookingMessage}
+            </div>
+          )}
+
+         
           <div className="pt-2">
-            <BookSessionBtn tutor={tutor} />
+           
+            <BookSessionBtn tutor={tutor} isBookingBlocked={isBookingBlocked} />
           </div>
           
         </div>
-
       </div>
     </div>
   );
 };
 
 export default TutorDetailsPage;
-/**
- * 1. book session btn theke click kora hobe. 
- * dynamic route e ID soho hajir hoye zabe. 
- * details page theke params ID diye API call kora hobe. 
- * server theke API res send korbe . 
- * database server er res onusare single data send korbe
- * */ 
